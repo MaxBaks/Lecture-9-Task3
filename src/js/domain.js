@@ -8,11 +8,6 @@ class Team {
       if (this.characters.size === 5) {
         throw Error('В команде не может быть больше 5 персонажей!');
       } else {
-        const heroForSearch = this.toArray().find(e => e.name === newHero.name);
-        if (heroForSearch !== undefined) {
-          throw Error('В команде уже есть такой персонаж!');
-        }
-
         this.characters.add(newHero);
         return this.characters;
       }
@@ -21,25 +16,19 @@ class Team {
     }
   }
 
-  addAll(...heroes) {
-    try {
-      for (const hero of heroes) {
-        const heroForSearch = this.toArray().find(e => e.name === hero.name);
-        if (heroForSearch === undefined) {
-          const response = this.add(hero);
-          if (response !== this.characters) {
-            throw response;
-          }
-        }
-      }
-      return this.characters;
-    } catch (err) {
-      return err;
-    }
-  }
-
   toArray() {
     return [...this.characters];
+  }
+
+  [Symbol.iterator]() {
+    let index = 0;
+    const finish = this.toArray().length;
+    return {
+      next: () => ({
+        value: this.toArray()[index++],
+        done: index === finish + 1,
+      }),
+    };
   }
 }
 

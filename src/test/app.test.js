@@ -4,48 +4,49 @@ import {
 
 test('characters should be added correctly', () => {
   const team = new Team();
-  team.addAll(new Character('Лучник1', 'Лучник', 10, 2, 25, 25), new Character('Лучник2', 'Лучник', 10, 2, 25, 25), new Character('Лучник2', 'Лучник', 10, 2, 25, 25));
+  team.add(new Character('Лучник1', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник2', 'Bowman', 50, 1, 40, 10));
 
   const expected = new Set();
   expected.add({
-    name: 'Лучник1', type: 'Лучник', health: 10, level: 2, attack: 25, defence: 25,
+    name: 'Лучник1', type: 'Bowman', health: 50, level: 1, attack: 40, defence: 10,
   });
   expected.add({
-    name: 'Лучник2', type: 'Лучник', health: 10, level: 2, attack: 25, defence: 25,
+    name: 'Лучник2', type: 'Bowman', health: 50, level: 1, attack: 40, defence: 10,
   });
 
   expect(team.characters).toEqual(expected);
 });
 
-test('error should be shown when character already exists', () => {
-  const team = new Team();
-  team.add(new Character('Лучник1', 'Лучник', 10, 2, 25, 25));
-  const result = team.add(new Character('Лучник1', 'Лучник', 10, 2, 25, 25));
 
-  const expected = Error('В команде уже есть такой персонаж!');
+test('team should be iterated correctly', () => {
+  const team = new Team();
+  team.add(new Character('Лучник1', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник2', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник3', 'Bowman', 50, 1, 40, 10));
+
+  const result = new Set();
+  for (const hero of team) {
+    result.add(hero);
+  }
+
+  const expected = new Set();
+  expected.add(new Character('Лучник1', 'Bowman', 50, 1, 40, 10));
+  expected.add(new Character('Лучник2', 'Bowman', 50, 1, 40, 10));
+  expected.add(new Character('Лучник3', 'Bowman', 50, 1, 40, 10));
 
   expect(result).toEqual(expected);
 });
+
 
 test('error should be shown when team is full', () => {
   const team = new Team();
-  team.add(new Character('Лучник1', 'Лучник', 10, 2, 25, 25));
-  team.add(new Character('Лучник2', 'Лучник', 10, 2, 25, 25));
-  team.add(new Character('Лучник3', 'Лучник', 10, 2, 25, 25));
-  team.add(new Character('Лучник4', 'Лучник', 10, 2, 25, 25));
-  team.add(new Character('Лучник5', 'Лучник', 10, 2, 25, 25));
-  const result = team.add(new Character('Лучник6', 'Лучник', 10, 2, 25, 25));
-
-  const expected = Error('В команде не может быть больше 5 персонажей!');
-
-  expect(result).toEqual(expected);
-});
-
-test('error should be shown when team is full (addAll)', () => {
-  const team = new Team();
-  team.addAll(new Character('Лучник1', 'Лучник', 10, 2, 25, 25), new Character('Лучник2', 'Лучник', 10, 2, 25, 25),
-    new Character('Лучник3', 'Лучник', 10, 2, 25, 25), new Character('Лучник4', 'Лучник', 10, 2, 25, 25));
-  const result = team.addAll(new Character('Лучник5', 'Лучник', 10, 2, 25, 25), new Character('Лучник6', 'Лучник', 10, 2, 25, 25));
+  team.add(new Character('Лучник1', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник2', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник3', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник4', 'Bowman', 50, 1, 40, 10));
+  team.add(new Character('Лучник5', 'Bowman', 50, 1, 40, 10));
+  const result = team.add(new Character('Лучник6', 'Bowman', 50, 1, 40, 10));
 
   const expected = Error('В команде не может быть больше 5 персонажей!');
 
